@@ -1,5 +1,6 @@
 const express = require('express');
 const morgan = require('morgan');
+const colors = require('colors');
 
 const dotenv = require('dotenv');
 const connectDB = require('./config/db');
@@ -22,11 +23,13 @@ app.use('/api/v1/bootcamps', bootcamps);
 const PORT = process.env.PORT || 5000;
 
 const server = app.listen(PORT, () => {
-  console.log(`server running in ${process.env.NODE_ENV} mode on prot ${PORT}`);
+  console.log(
+    `server running in ${process.env.NODE_ENV} mode on prot ${PORT}`.yellow.bold
+  );
 });
 
 process.on('undandledRejection', (err, promise) => {
-  console.log(`Error: ${err.message}`);
+  console.log(`Error: ${err.message}`.red);
 
   server.close(() => process.exit(1));
 });
