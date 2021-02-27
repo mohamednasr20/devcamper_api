@@ -1,27 +1,12 @@
 const ErrorResponse = require('../utilts/errorResponse');
 const asyncHandler = require('../middleware/async');
+const advancedResults = require('../middleware/advancedResults');
 const geocoder = require('../utilts/geocoder');
 const Bootcamp = require('../models/Bootcamp');
 
 exports.getBootcamps = asyncHandler(async (req, res, next) => {
-  let query;
-
-  let queryStr = JSON.stringify(req.query);
-
-  queryStr = queryStr.replace(
-    /\b(gt|gte|lt|lte|in)\b/g,
-    (match) => `$${match}`
-  );
-
-  query = bootcamp.find(JSON.parse(queryStr));
-
-  const bootcamps = await query;
-
-  res
-    .status(200)
-    .json({ success: true, count: bootcamps.length, data: bootcamps });
+  res.status(200).json(res.advancedResults);
 });
-
 exports.getBootcamp = asyncHandler(async (req, res, next) => {
   const bootcamp = await Bootcamp.findById(req.params.id);
 
